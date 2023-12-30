@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import SinglePlayerGame from "./components/SinglePlayerGame";
+import MultiPlayerGame from "./components/MultiPlayerGame";
+import MainMenu from "./components/MainMenu";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import {Routes, Route,useLocation} from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+
 
 function App() {
+
+  const location = useLocation();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <AnimatePresence mode="wait">
+    <Routes location={location} key={location.pathname}>
+      <Route index element={<MainMenu />} />
+      <Route path="/SinglePlayerGame" element={<SinglePlayerGame />} />
+      <Route path="/MultiPlayerGame" element={<MultiPlayerGame />} />      
+    </Routes>
+    </AnimatePresence>
+    </>
   );
 }
 
