@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useRef } from "react";
+import React, { useCallback, useEffect, useState} from "react";
 import SingleCard from "./SingleCard";
 import { shuffleCards } from "./CommonComponents";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -16,8 +16,7 @@ function MultiPlayerGame() {
   const [player, setPlayer] = useState(1);
   const [bgColor, setBgColor] = useState("#14213d");
   const [initialRender, setInitialRender] = useState(true);
-  let isClicked = useRef(false);
-
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
   const shuffleCardsFunction = () => {
     const shuffledCards = shuffleCards();
     setCards(shuffledCards);
@@ -31,6 +30,10 @@ function MultiPlayerGame() {
 
   const handleNewGame = useCallback(() => {
     setScore({ player1: 0, player2: 0 });
+    setButtonDisabled(true);  
+  
+    shuffleCardsFunction();
+    
     setTimeout(() => {
       const cards = document.querySelectorAll(".card1");
       let delay = 1000;
@@ -70,11 +73,9 @@ function MultiPlayerGame() {
         delay += 250;
       });
     }, 0);
-    let timeout = isClicked.current ? 1000 : 0;
     setTimeout(() => {
-      shuffleCardsFunction();
-      isClicked.current = false;
-    }, timeout);
+      setButtonDisabled(false);
+    }, 8000); 
   }, []);
 
   useEffect(() => {
@@ -291,14 +292,14 @@ function MultiPlayerGame() {
       </div>
 
       <div className="game-buttons">
-        <button
+      <button
           className="new-game-button"
           onClick={() => {
-            // Değişkeni true yap
-            isClicked.current = true;
-            // handleNewGame fonksiyonunu çağır
-            handleNewGame();
+            if (!isButtonDisabled) {
+              handleNewGame();
+            }
           }}
+          disabled={isButtonDisabled}
         >
           New Game{" "}
         </button>
