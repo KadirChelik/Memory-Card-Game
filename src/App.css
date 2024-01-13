@@ -112,8 +112,7 @@ html{
 .area{
   position: absolute;
   z-index: -1;
-  background: #141414;  
-  background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);  
+  background: #141414;
   width: 100%;
   height:100vh;
 }
