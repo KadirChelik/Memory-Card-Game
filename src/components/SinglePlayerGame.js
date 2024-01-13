@@ -16,7 +16,7 @@ function SinglePlayerGame() {
   const [player, setPlayer] = useState(1);
   const [bgColor, setBgColor] = useState("#14213d");
   const [initialRender, setInitialRender] = useState(true);
- 
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
   const shuffleCardsFunction = () => {
     const shuffledCards = shuffleCards();
     setCards(shuffledCards);
@@ -58,6 +58,7 @@ function SinglePlayerGame() {
             targets: [element1, element2],
             translateY: "-1200vh",
             duration: 6000,
+            delay: 1000,
           });
 
         resetTurn();
@@ -80,8 +81,8 @@ function SinglePlayerGame() {
 
   const handleNewGame = useCallback(() => {
     setScore({ player1: 0, player2: 0 });
+    setButtonDisabled(true);  
     
-  
     shuffleCardsFunction();
     
     setTimeout(() => {
@@ -123,7 +124,9 @@ function SinglePlayerGame() {
         delay += 250;
       });
     }, 0);
-    
+    setTimeout(() => {
+      setButtonDisabled(false);
+    }, 8000); 
   }, []);
 
   useEffect(() => {
@@ -358,8 +361,11 @@ function SinglePlayerGame() {
         <button
           className="new-game-button"
           onClick={() => {
-            handleNewGame();
+            if (!isButtonDisabled) {
+              handleNewGame();
+            }
           }}
+          disabled={isButtonDisabled}
         >
           New Game{" "}
         </button>
